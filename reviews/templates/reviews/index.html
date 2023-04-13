@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>index</h1>
+{% for review in reviews %}
+  <p>{{ review.title }}</p>
+{% empty %}
+  <p>아직 리뷰가 없어요.</p>
+{% endfor %}
+{% endblock content %}

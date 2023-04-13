@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+  {{ request.user }}
+  {{ request.user.is_staff }}
+
+  {% for review in reviews %}
+    {{ review.title }}
+  {% empty %}
+    <p>작성한 리뷰가 없습니다.</p>
+  {% endfor %}
+{% endblock content %}
