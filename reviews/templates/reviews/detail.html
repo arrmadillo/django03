@@ -1,7 +1,53 @@
 {% extends 'base.html' %}
+
+
 {% block content %}
-<h1>DETAIL</h1>
+    
+    <div class="container">
+        <h1>Detail</h1>
+        <div class='rounded border border-success'>
+          <h1 class='mt-5'>제목: {{ review.title }}</h1>
+          <h3 class='mt-5'>내용: {{ review.content }}</h3>
+          <h3 class='mb-5'>영화제목: {{ review.movie }}</h3>
+          <a href="{% url 'reviews:index' %}">[back]</a>
+          {% if request.user == review.user %}
+            <a href="{% url 'reviews:update' review.pk %}">[update]</a>
+            <a href="{% url 'reviews:delete' review.pk %}">[delete]</a>
+          {% endif %}
+          
+        </div>
+    
 
+        {% comment %} <h4 class='mt-5'>댓글 목록, 댓글 개수{{count}}개</h4>
+        <ul>
+            {% for comment in comments %}
+              <hr>
+              {% if review.user == comment.user %}
+                <p class='text-primary'>댓글작성자 - {{comment.user}}</p>
+              {% else %}
+                <p class='text-danger'>댓글작성자 - {{comment.user}}</p>
+              {% endif %}
+              
+              <p>댓글 내용 - {{comment.content}}</p>
+              <p>작성 날짜 - {{comment.created_at}}</p>
+              {% if comment.user == request.user %}
+                <form action="{% url 'reviews:comment_delete' review.pk comment.pk %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="삭제">
+                </form>
+              {% endif %}
+            
 
+            {% endfor %}
+        </ul>
+        
 
+        <form action="{% url 'reviews:comment_create' review.pk %}" method="POST">
+            {% csrf_token %}
+            {{ comment_form }}
+            <input type="submit" value='댓글 작성'>
+        </form> {% endcomment %}
+    </div>
+    
+    
 {% endblock content %}
