@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.forms import AuthenticationForm
-from .forms import CustomUserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.contrib.auth.decorators import login_required
 from .models import User
+from django.contrib.auth import update_session_auth_hash
 # Create your views here.
 
 def signup(request):
@@ -38,9 +39,11 @@ def login(request):
     return render(request, 'accounts/login.html', context)
 
 
+@login_required
 def logout(request):
     auth_logout(request)
     return redirect('reviews:index')
+
 
 @login_required
 def profile(request):
@@ -50,3 +53,41 @@ def profile(request):
         'reviews': reviews,
     }
     return render(request, 'accounts/profile.html', context)
+
+
+@login_required
+def update(request):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:profile')
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    context = {
+        'form': form,
+    }
+    return render(request, 'accounts/update.html', context)
+
+
+@login_required
+def delete(request):
+    request.user.delete()
+    auth_logout(request)
+    return redirect('reviews:index')
+
+
+@login_required
+def password_change(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('accounts:profile')
+    else:
+        form = PasswordChangeForm(request.user)
+    context = {
+        'form': form,
+    }
+    return render(request, 'accounts/password_change.html', context)
