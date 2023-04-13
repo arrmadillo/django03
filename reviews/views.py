@@ -38,7 +38,7 @@ def detail(request, review_pk):
     context = {
         'review': review,
         'comments': comments,
-        'comments_form': comment_form,
+        'comment_form': comment_form,
         'count': count,
     }
     return render(request, 'reviews/detail.html', context)
@@ -83,15 +83,13 @@ def create_comment(request, review_pk):
             comment.user = request.user
             comment.save()
             return redirect('reviews:detail', review_pk)
-        
-        # 유효성
-        context = {
-            'review':review,
-            'comment_form': comment_form,
-        }
-        return render(request,'reviews/detail.html', context)
-
-
+        else:
+            # 유효성
+            context = {
+                'review': review,
+                'comment_form': comment_form,
+            }
+            return render(request,'reviews/detail.html', context)
 
 
 # 댓글삭제
