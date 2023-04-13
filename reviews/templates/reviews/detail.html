@@ -18,7 +18,7 @@
         </div>
     
 
-        {% comment %} <h4 class='mt-5'>댓글 목록, 댓글 개수{{count}}개</h4>
+        <h4 class='mt-5'>댓글 목록, 댓글 개수{{count}}개</h4>
         <ul>
             {% for comment in comments %}
               <hr>
@@ -29,9 +29,8 @@
               {% endif %}
               
               <p>댓글 내용 - {{comment.content}}</p>
-              <p>작성 날짜 - {{comment.created_at}}</p>
               {% if comment.user == request.user %}
-                <form action="{% url 'reviews:comment_delete' review.pk comment.pk %}" method="POST">
+                <form action="{% url 'reviews:delete_comment' review.pk comment.pk %}" method="POST">
                     {% csrf_token %}
                     <input type="submit" value="삭제">
                 </form>
@@ -42,12 +41,12 @@
         </ul>
         
 
-        <form action="{% url 'reviews:comment_create' review.pk %}" method="POST">
+        <form action="{% url 'reviews:create_comment' review.pk %}" method="POST">
             {% csrf_token %}
-            {{ comment_form }}
+            {{ comment_form.as_p }}
             <input type="submit" value='댓글 작성'>
-        </form> {% endcomment %}
+        </form>
     </div>
-    
+
     
 {% endblock content %}

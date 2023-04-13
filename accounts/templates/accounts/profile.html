@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
   {{ request.user }}
-  {{ request.user.is_staff }}
-
+  {{ request.user.email }}
+  <br>
   {% for review in reviews %}
-    {{ review.title }}
+    <p>후기번호 {{ review.pk }}</p>
+    <a href="{% url 'reviews:detail' review.pk %}"> {{ review.title }}</a>
+    <hr>
   {% empty %}
     <p>작성한 리뷰가 없습니다.</p>
+    
   {% endfor %}
 {% endblock content %}

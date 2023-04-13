@@ -7,6 +7,13 @@ class ReviewForm(forms.ModelForm):
         exclude = ["user"]
 
 class CommentForm(forms.ModelForm):
+    # content = forms.CharField(
+    #     widget=forms.TextInput()
+    # )
+   
+    
     class Meta:
         model = Comment
         fields = ('content',)
+
+    
