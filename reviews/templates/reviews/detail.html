@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
     
     <div class="container">
@@ -14,9 +13,7 @@
             <a href="{% url 'reviews:update' review.pk %}">[update]</a>
             <a href="{% url 'reviews:delete' review.pk %}">[delete]</a>
           {% endif %}
-          
         </div>
-    
 
         <h4 class='mt-5'>댓글 목록, 댓글 개수{{count}}개</h4>
         <ul>
@@ -27,7 +24,6 @@
               {% else %}
                 <p class='text-danger'>댓글작성자 - {{comment.user}}</p>
               {% endif %}
-              
               <p>댓글 내용 - {{comment.content}}</p>
               {% if comment.user == request.user %}
                 <form action="{% url 'reviews:delete_comment' review.pk comment.pk %}" method="POST">
@@ -35,18 +31,14 @@
                     <input type="submit" value="삭제">
                 </form>
               {% endif %}
-            
-
             {% endfor %}
         </ul>
-        
 
-        <form action="{% url 'reviews:create_comment' review.pk %}" method="POST">
+        <form id='form' action="{% url 'reviews:create_comment' review.pk %}" method="POST">
             {% csrf_token %}
             {{ comment_form.as_p }}
             <input type="submit" value='댓글 작성'>
         </form>
     </div>
 
-    
 {% endblock content %}
