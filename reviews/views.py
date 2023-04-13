@@ -63,6 +63,7 @@ def update(request, review_pk):
     }
     return render(request, 'reviews/update.html', context)
 
+
 @login_required
 def delete(request, review_pk):
     review = Review.objects.get(pk=review_pk)
@@ -95,7 +96,6 @@ def create_comment(request, review_pk):
 # 댓글삭제
 @login_required
 def delete_comment(request, review_pk, comment_pk):
-
     comment = Comment.objects.get(pk=comment_pk)
 
     if request.user == comment.user:

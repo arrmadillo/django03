@@ -1,8 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
   {{ request.user }}
+  <br>
   {{ request.user.email }}
   <br>
+  {{ request.user.first_name }}
+  <br>
+  {{ request.user.last_name }}
+  <br>
+  <a href="{% url 'accounts:update' %}">프로필 수정</a>
+  <a href="{% url 'accounts:password_change' %}">비밀번호 변경</a>
+  <form action="{% url 'accounts:delete' %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="회원탈퇴">
+  </form>
   {% for review in reviews %}
     <p>후기번호 {{ review.pk }}</p>
     <a href="{% url 'reviews:detail' review.pk %}"> {{ review.title }}</a>
