@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
-    reviews = Review.objects.all()
+    reviews = Review.objects.order_by('-pk')
     context = {
         'reviews': reviews,
     }
@@ -17,7 +17,7 @@ def index(request):
 def create(request):
     if request.method == "POST":
         form = ReviewForm(request.POST)
-        if form.is_vaild():
+        if form.is_valid():
             review = form.save(commit=False)
             review.user = request.user
             review.save()
@@ -48,7 +48,7 @@ def update(request, review_pk):
     if request.user == review.user:
         if request.method == "POST":
             form = ReviewForm(request.POST, instance=review)
-            if form.is_vaild():
+            if form.is_valid():
                 form.save()
                 return redirect('reviews:detail', review_pk)
         else:
@@ -60,3 +60,42 @@ def update(request, review_pk):
         'form': form,
     }
     return render(request, 'reviews/update.html', context)
+
+@login_required
+def delete(request, review_pk):
+    review = Review.objects.get(pk=review_pk)
+    if request.user == review.user:
+        review.delete()
+    return redirect('reviews:index')
+
+
+# 댓글생성
+@login_required
+def create_comment(request, review_pk):
+    review = Review.objects.get(pk=review_pk)
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.review = review
+        comment.user = request.user
+        comment.save()
+        return redirect('reviews:detail', review_pk)
+    
+    # 유효성
+    context = {
+        'review':review,
+        'comment_form': comment_form,
+    }
+    return render(request,'reviews/detail.html', context)
+
+
+# 댓글삭제
+@login_required
+def delete_comment(request, review_pk, comment_pk):
+
+    comment = Comment.objects.get(pk=comment_pk)
+
+    if request.user == comment.user:
+        comment.delete()
+
+    return redirect('reviews:detail', review_pk)
