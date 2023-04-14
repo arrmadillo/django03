@@ -1,19 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>박스오피스 순위</h1>
+<h1>영화 리뷰</h1>
 {% if request.user.is_authenticated %}
-  <h3>
-    안녕하세요, <a href="{% url 'accounts:profile' %}">{{ user }} 님!</a>
-  </h3>
-  <form action="{% url 'accounts:logout' %}" method="POST">
-    {% csrf_token %}
-    <input type="submit" value="Logout">
-  </form>
   <a href="{% url 'reviews:create' %}">작성하기</a>
   {% else %}
-  <a href="{% url 'accounts:login' %}">Login</a>
-  <a href="{% url 'accounts:signup' %}">Signup</a>
   {% endif %}
   <hr>
 
@@ -22,22 +13,23 @@
       <div class="row g-4">
   {% for review in reviews %}
       <div class="col-md-3 col-sm-6 col-12">
-          <div class="card">
+        <a href="{% url 'reviews:detail' review.pk %}">
+          <div class="card" onclick="redirectToDetailPage('{{ review.pk }}')">
             {% if review.image %}
             <img src="{{ review.image.url }}" class="card-img-top" alt="image">
             {% endif %}
             <div class="card-body">
-              <p class="card-text">영화제목: {{review.movie}}</p>
+              <p class="card-text">{{review.movie}}</p>
               <p class="card-text">작성자: {{review.user}}</p>
-              <a href="{% url 'reviews:detail' review.pk %}">
-                <p class="card-text">제목: {{review.title}}</p>
-              </a>
+              <p class="card-text">제목: {{review.title}}</p>
             </div>
           </div>
+        </a>
       </div>
   {% empty %}
   <p>아직 리뷰가 없어요.</p>
   {% endfor %}
       </div>
   </div>
+
 {% endblock content %}
