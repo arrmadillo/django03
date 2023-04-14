@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAuthenticationForm, CustomPasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from .models import User
 from django.contrib.auth import update_session_auth_hash
@@ -25,14 +25,14 @@ def signup(request):
 
 def login(request):
     if request.method =='POST':
-        form = AuthenticationForm(request, request.POST)
+        form = CustomAuthenticationForm(request, request.POST)
         if form.is_valid():
             user = form.get_user()
             auth_login(request, user)
             return redirect('reviews:index')
 
     else:
-        form = AuthenticationForm()
+        form = CustomAuthenticationForm()
     context = {
         'form' : form
     }
@@ -80,13 +80,13 @@ def delete(request):
 @login_required
 def password_change(request):
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
+        form = CustomPasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
             return redirect('accounts:profile')
     else:
-        form = PasswordChangeForm(request.user)
+        form = CustomPasswordChangeForm(request.user)
     context = {
         'form': form,
     }
