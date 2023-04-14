@@ -2,6 +2,8 @@ from django import forms
 from .models import Review, Comment
 
 class ReviewForm(forms.ModelForm):
+    rating = forms.FloatField(widget=forms.NumberInput(attrs={'step': 0.5}))
+
     class Meta:
         model = Review
         exclude = ["user"]
