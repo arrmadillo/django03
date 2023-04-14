@@ -13,7 +13,7 @@
     <div style = "display: inline-block;">
     <div class="card" class = "mx-auto" style = "width : 400px;">
       {% if request.user.image %}
-        <img src="{{ request.user.image.url }}" class="card-img-top rounded-2 mx-auto mt-4" style = "width: 300px; height: 300px;" alt="image">
+        <img src="{{ request.user.image.url }}" class="card-img-top rounded-2 mx-auto mt-4" style = "width: 300px;" alt="image">
       {% else %}
         <img src="{% static 'not-found-user.png' %}" class="card-img-top rounded-2 mx-auto mt-4" alt="image">
       {% endif %}
