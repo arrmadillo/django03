@@ -19,25 +19,27 @@
       {% endif %}
     </div>
 
-    <h4 class='mt-5'>댓글 목록, 댓글 개수{{count}}개</h4>
-    <ul>
+    <h4 class='mt-5'>댓글({{count}})</h4>
+    <table class="table" style="width:100%">
       {% for comment in comments %}
-        <hr>
-        {% if review.user == comment.user %}
-          <p class='text-primary'>댓글작성자 - {{comment.user}}</p>
-        {% else %}
-          <p class='text-danger'>댓글작성자 - {{comment.user}}</p>
-        {% endif %}
-        
-        <p>댓글 내용 - {{comment.content}}</p>
-        {% if comment.user == request.user %}
-          <form action="{% url 'reviews:delete_comment' review.pk comment.pk %}" method="POST">
-              {% csrf_token %}
-              <input type="submit" value="삭제">
-          </form>
-        {% endif %}
+        <tr>
+          {% if review.user == comment.user %}
+            <th scope="col" class='text-primary' style="width:10%">{{comment.user}}</th>
+          {% else %}
+            <th scope="col" class='text-dark'>{{comment.user}}</th>
+          {% endif %}
+          <th scope="col">{{comment.content}}</th>
+          {% if comment.user == request.user %}
+          <th scope="col" style="width:10%">
+            <form action="{% url 'reviews:delete_comment' review.pk comment.pk %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="삭제">
+            </form>
+          </th>
+          {% endif %}
+        </tr>
       {% endfor %}
-    </ul>
+    </table>
     <form action="{% url 'reviews:create_comment' review.pk %}" method="POST">
       {% csrf_token %}
       {{ comment_form }}
