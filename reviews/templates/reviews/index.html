@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block style %}
     a {
       text-decoration: none; /* 밑줄 제거 */
@@ -15,12 +16,15 @@
         <a href="{% url 'reviews:detail' review.pk %}">
           <div class="card" onclick="redirectToDetailPage('{{ review.pk }}')">
             {% if review.image %}
-            <img src="{{ review.image.url }}" class="card-img-top" alt="image">
+              <img src="{{ review.image.url }}" class="card-img-top"  alt="image">
+            {% else %}
+              <img src="{% static 'No-Image-Placeholder.svg.png' %}" class="card-img-top" alt="image">
             {% endif %}
             <div class="card-body">
               <p class="card-text">{{review.movie}}</p>
+              <p class="card-text">{{review.title}}</p>
               <p class="card-text">작성자: {{review.user}}</p>
-              <p class="card-text">제목: {{review.title}}</p>
+              
             </div>
           </div>
         </a>
