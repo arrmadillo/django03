@@ -10,12 +10,12 @@
     }
     .card-text {
       margin-bottom: 5px;
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 200;
       margin-bottom: 0px;
     }
     .card_title{
-      font-size: 25px;
+      font-size: 23px;
       font-weight: 600;
       margin-bottom: 10px;
     }
@@ -26,26 +26,27 @@
   <div class="container mt-4" >
     <h3 class="font-weight-bolder">영화 리뷰</h3>
       <div class="row g-4">
-  {% for review in reviews %}
-      <div class="col-md-3 col-sm-6 col-12">
-        <a href="{% url 'reviews:detail' review.pk %}">
-          <div class="card">
-            {% if review.image %}
-              <img src="{{ review.image.url }}" class="card-img-top rounded-2"  alt="image">
-            {% else %}
-              <img src="{% static 'No-Image-Placeholder.svg.png' %}" class="card-img-top" alt="image">
-            {% endif %}
-            <div class="card-body p-0 mt-1">
-              <h4 class="card-text card_title">{{review.movie}}</h4>
-              <p class="card-text">{{review.title}}</p>
-              <p class="card-text">작성자: {{review.user}}</p> 
+        {% for review in reviews %}
+            <div class="col-md-3 col-sm-6 col-12">
+              <a href="{% url 'reviews:detail' review.pk %}">
+                <div class="card">
+                  {% if review.image %}
+                    <img src="{{ review.image.url }}" class="card-img-top rounded-2"  alt="image">
+                  {% else %}
+                    <img src="{% static 'No-Image-Placeholder.svg.png' %}" class="card-img-top" alt="image">
+                  {% endif %}
+                  <div class="card-body p-0 mt-1">
+                    <h4 class="card-text card_title">{{review.movie}}</h4>
+                    <p class="card-text">{{review.title}}</p>
+                    <p class="card-text">{{ review.half_star_rating }}</p>
+                    <p class="card-text">작성자: {{review.user}}</p> 
+                  </div>
+                </div>
+              </a>
             </div>
-          </div>
-        </a>
-      </div>
-  {% empty %}
-  <p>아직 리뷰가 없어요.</p>
-  {% endfor %}
+        {% empty %}
+        <p>아직 리뷰가 없어요.</p>
+        {% endfor %}
       </div>
   </div>
 
