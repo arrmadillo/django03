@@ -4,9 +4,6 @@
     <div class="">
       <div class="d-flex justify-content-between">
         <h1 class="mt-5">{{ review.title }}</h1>
-         <hr>
-          <p> 별점 {{ review.half_star_rating }}</p>
-         <hr>
         <div class="mt-5">
           {% if request.user == review.user %}
             <a class="btn btn-outline-dark mx-2" href="{% url 'reviews:update' review.pk %}">수정</a>
@@ -15,6 +12,8 @@
         </div>
       </div>
       <hr>
+      <p> 별점 {{ review.half_star_rating }}</p>
+     <hr>
       {% comment %} <h5>{{ review.movie }}</h5> {% endcomment %}
       {% if review.image %}
         <div class="mb-3">
