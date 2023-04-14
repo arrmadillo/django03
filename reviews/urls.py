@@ -11,4 +11,5 @@ urlpatterns = [
     #댓글 생성 / 삭제 
     path('<int:review_pk>/comments/', views.create_comment, name='create_comment'),
     path('<int:review_pk>/comments/<int:comment_pk>/delete/', views.delete_comment, name='delete_comment'),
+    path('<int:review_pk>/likes/', views.likes, name='likes'),
 ]
