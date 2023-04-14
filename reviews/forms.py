@@ -2,7 +2,7 @@ from django import forms
 from .models import Review, Comment
 
 class ReviewForm(forms.ModelForm):
-    rating = forms.FloatField(widget=forms.NumberInput(attrs={'step': 0.5}))
+    rating = forms.FloatField(widget=forms.NumberInput(attrs={'step': 0.5, 'min':0, 'max':5}))
 
     class Meta:
         model = Review
