@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="mt-5">
     <form action="{% url 'reviews:create' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="작성">
+        <button type="submit" class="btn btn-outline-primary">작성</button>
+        {% comment %} <input type="submit" value="작성"> {% endcomment %}
     </form>
+</div>
 {% endblock content %}
