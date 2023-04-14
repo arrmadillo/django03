@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Review, Comment
 from .forms import ReviewForm, CommentForm
 from django.contrib.auth.decorators import login_required
-
+from django.views.decorators.http import require_POST
 # Create your views here.
 def index(request):
     reviews = Review.objects.order_by('-pk')
@@ -102,3 +102,24 @@ def delete_comment(request, review_pk, comment_pk):
         comment.delete()
 
     return redirect('reviews:detail', review_pk)
+
+
+@require_POST
+def likes(request, review_pk):
+    if request.user.is_authenticated:
+        review = get_object_or_404(Review, pk=review_pk)
+        if review.like_users.filter(pk=request.user.pk).exists():
+            review.like_users.remove(request.user)
+        else:
+            review.like_users.add(request.user)
+        return redirect('reviews:detail', review_pk)
+    return redirect('accouts:login')
+
+
+# def likes(request, review_pk):
+# 	review = get_object_or_404(Review, pk=review_pk)
+#     if request.user in review.like_users.all():
+#     	review.like_users.remove(request.user)
+# 	else:
+#     	review.like_users.add(request.user)
+# 	return redirect('articles:detail', article.pk)
