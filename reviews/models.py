@@ -7,6 +7,7 @@ class Review(models.Model):
     title   = models.CharField(max_length=50)
     content = models.TextField(null=False)
     movie   = models.CharField(max_length=50)
+    image   = models.ImageField(upload_to='image/', null=True, blank=True)
 
 class Comment(models.Model):
     user    = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
