@@ -29,7 +29,7 @@
   {% for review in reviews %}
       <div class="col-md-3 col-sm-6 col-12">
         <a href="{% url 'reviews:detail' review.pk %}">
-          <div class="card" onclick="redirectToDetailPage('{{ review.pk }}')">
+          <div class="card">
             {% if review.image %}
               <img src="{{ review.image.url }}" class="card-img-top rounded-2"  alt="image">
             {% else %}
