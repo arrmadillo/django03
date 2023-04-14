@@ -35,7 +35,7 @@
           <th scope="col" style="width:10%">
             <form action="{% url 'reviews:delete_comment' review.pk comment.pk %}" method="POST">
                 {% csrf_token %}
-                <input type="submit" value="삭제">
+                <input class="btn btn-outline-dark ms-2" type="submit" value="삭제">
             </form>
           </th>
           {% endif %}
