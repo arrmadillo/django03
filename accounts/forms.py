@@ -3,9 +3,11 @@ from django.contrib.auth import get_user_model
 from django import forms
 
 class CustomUserCreationForm(UserCreationForm):
+    image = forms.ImageField(required=False)
+
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
-        fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2',)
+        fields = ('username', 'email', 'first_name', 'last_name', 'image', 'password1', 'password2',)
 
 
 class CustomUserChangeForm(UserChangeForm):
