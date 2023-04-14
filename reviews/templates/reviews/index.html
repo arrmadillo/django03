@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
+{% block style %}
+    a {
+      text-decoration: none; /* 밑줄 제거 */
+    }
+{% endblock style %}
 {% block content %}
 
   <!--카드-->
-  <div class="container mt-5" >
-    <h2>영화 리뷰</h2>
+  <div class="container mt-4" >
+    <h3 class="font-weight-bolder">영화 리뷰</h3>
       <div class="row g-4">
   {% for review in reviews %}
       <div class="col-md-3 col-sm-6 col-12">
